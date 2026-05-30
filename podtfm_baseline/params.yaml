@@ -1,0 +1,30 @@
+# ===== stepa_preprocess.py =====
+# Match the MT-CPSO-F T115_4 ws=50 setting (curriculum-cosine chain)
+window_size: 50            # time steps per sample
+stride_train: 10           # train sliding-window step
+stride_eval: 50            # valid/test step (= window_size means non-overlapping)
+train_ratio: 0.8
+valid_ratio: 0.1
+test_ratio: 0.1
+
+# ===== training loop (stepb_train.py) =====
+epochs: 300
+batch_size: 256
+predict_batch: 256
+lr: 0.0001
+early_stop_patience: 20
+
+# ===== POD-Transformer architecture =====
+# Defaults below correspond to p=k=6; sweep scripts override pod_p/pod_k
+# /pod_input_dim/pod_output_dim per run.
+# Small config (used in the README ablation table).
+pod_p:          6            # sensors
+pod_k:          6            # POD modes
+pod_input_dim:  6            # c_LF features (= k)
+pod_output_dim: 6            # c_HF features (= k)
+pod_d_model:    64           # hidden dim (small: low-dim coefficient task)
+pod_n_head:     4            # attention heads (head_dim = 16)
+pod_ffn_hidden: 128          # FFN hidden (2 * d_model)
+pod_n_layers:   2            # encoder layers
+pod_dropout:    0.1
+pod_max_len:    50           # positional-encoding capacity (= window_size)

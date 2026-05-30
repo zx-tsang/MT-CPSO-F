@@ -1,0 +1,42 @@
+# ===== data_preprocess.py =====
+# Match MT-CPSO-F T115_4 ws=50 setting (curriculum-cosine chain)
+window_size: 50            # time steps per sample (= ws50 of MT-CPSO-F)
+stride_train: 10           # train sliding-window step
+stride_eval: 50            # valid/test step (= window_size means non-overlapping)
+train_ratio: 0.8
+valid_ratio: 0.1
+test_ratio: 0.1
+
+# ===== Transformer architecture (network/Transformer.py) =====
+cov_dim: 500              # number of taps. Embedding input dim = 2*cov_dim (mask is concatenated)
+max_len: 500               # positional-encoding capacity, must be >= window_size
+d_model: 1024              # hidden dim (must be divisible by n_head)
+ffn_hidden: 2048          # FFN hidden (typ. 2 * d_model)
+n_head: 16                 # attention heads (must divide d_model)
+n_layers: 3               # encoder layers
+dropout: 0.3
+
+# ===== training loop (steprb_Transformer.py) =====
+# batch_size raised to 256 to match MT-CPSO-F.
+epochs: 300
+batch_size: 256
+predict_batch: 256
+lr: 0.0001
+mask_min: 0.2             # min sensor-channel drop ratio
+mask_max: 0.95             # max sensor-channel drop ratio
+early_stop_patience: 20
+
+# ===== POD-Transformer (baseline_nav_*) =====
+# Defaults below correspond to p=k=6; sweep scripts override pod_p/pod_k
+# /pod_input_dim/pod_output_dim per run.
+pod_p:          6            # sensors
+pod_k:          6            # POD modes
+pod_input_dim:  6            # c_LF features (= k)
+pod_output_dim: 6            # c_HF features (= k)
+pod_d_model:    64           # small for low-dim coefficient task
+pod_n_head:     4            # head_dim = 16
+pod_ffn_hidden: 128          # 2 * d_model
+pod_n_layers:   2
+pod_dropout:    0.1
+pod_max_len:    50           # = window_size (ws50)
+

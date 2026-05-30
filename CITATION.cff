@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the accompanying paper."
+type: software
+title: >-
+  MT-CPSO-F: A Masked Transformer and Combinatorial PSO Framework
+  for Full-Field Wind Pressure Reconstruction
+authors:
+  - family-names: Tsang
+    given-names: Zhixuan
+repository-code: "https://github.com/zx-tsang/MT-CPSO-F"
+license: MIT
+preferred-citation:
+  type: article
+  title: >-
+    Sensor Placement as the Bottleneck: A Masked Transformer and
+    Combinatorial PSO Framework for Full-Field Wind Pressure
+    Reconstruction
+  authors:
+    - family-names: Tsang
+      given-names: Zhixuan
+  journal: "Computer-Aided Civil and Infrastructure Engineering"
+  year: 2026
+  notes: Under review.

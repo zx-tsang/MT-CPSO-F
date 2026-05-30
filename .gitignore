@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Model checkpoints / numpy artefacts (too large for git; use Releases or
+# regenerate locally with the preprocessing scripts)
+*.pt
+*.npz
+*.npy
+# Generated xlsx output from baseline runs (NOT the small reference xlsx
+# under idx/, which we DO commit because they are part of the artefact
+# release).
+mode_result/**/*.xlsx
+
+# Raw / derived data (each user fetches their own from the TPU database).
+# We keep raw_data/README.md as a placeholder telling users where to put files.
+raw_data/*
+!raw_data/README.md
+data/
+
+# Training / evaluation outputs (regenerated per-run)
+output_sensor/
+results_*/
+cpso_*/
+svd_qr_ft/
+mrdmd_qr_ft/
+mode_result/
+podtfm_p*_k*/
+release_artifacts/
+
+# Logs
+logs/
+*.log
+
+# Editor
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store

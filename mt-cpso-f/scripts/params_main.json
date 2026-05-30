@@ -1,0 +1,75 @@
+{
+  "_comment": "Main hyper-parameter set used to produce the MT-CPSO-F checkpoint reported in the paper (T115_4 dataset, window size 50, anchor_K = 10, pure MSE objective).",
+  "checkpoint_base": "mrm_T115_4_Transformer_anchorK10",
+  "output_base": "results_T115_4_anchorK10",
+  "window_size": 50,
+  "stride_size": 10,
+  "predict_stride_size": 50,
+  "idx": 0,
+  "batch_size": 256,
+  "predict_batch": 256,
+  "epochs": 600,
+  "dropout": 0.1,
+  "mc_predict": 1,
+  "num_class": 21,
+  "beta": 10,
+  "mask_min_drop_ratio": 0.5,
+  "mask_max_drop_ratio": 0.996,
+  "train_seed": 42,
+  "cov_dim": 500,
+  "d_model": 1024,
+  "ffn_hidden": 2048,
+  "n_head": 16,
+  "n_layers": 2,
+  "max_len": 256,
+  "noise_std": 0.3,
+  "alpha": 1,
+  "gamma": 10,
+  "latent_dim": 0,
+  "curriculum_enabled": true,
+  "curriculum_milestones": [],
+  "curriculum_ranges": [
+    [
+      0.5,
+      0.7
+    ],
+    [
+      0.7,
+      0.85
+    ],
+    [
+      0.85,
+      0.96
+    ],
+    [
+      0.96,
+      0.996
+    ]
+  ],
+  "curriculum_stage_lrs": [
+    0.0001,
+    8e-05,
+    6.4e-05,
+    5.12e-05
+  ],
+  "curriculum_fast_transition": {
+    "enabled": true,
+    "patience": 3,
+    "min_epochs_per_stage": 20,
+    "max_epochs_per_stage": 35
+  },
+  "curriculum_transition_window": 0,
+  "curriculum_final_stage_patience": 12,
+  "curriculum_cosine_mode": {
+    "enabled": true,
+    "epochs_per_stage_first": 30,
+    "cosine_min_ratio": 0.4,
+    "partial_restart_ratio": 0.8,
+    "final_min_lr": 1e-06
+  },
+  "early_stopping_patience": 120,
+  "min_lr": 1e-06,
+  "anchor_ratio": 0.996,
+  "anchor_K": 10,
+  "valid_anchor_seed": 0
+}
