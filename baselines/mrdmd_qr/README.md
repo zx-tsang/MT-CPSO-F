@@ -94,7 +94,7 @@ performance on this dataset.
 
 ## mrDMD-QR-F (finetune variant)
 
-[`run_finetune.sh`](run_finetune.sh) reproduces the **mrDMD-QR-F** row
+[`mrdmd_qr_f.sh`](mrdmd_qr_f.sh) reproduces the **mrDMD-QR-F** row
 in the paper's comparison table: it takes the QR-selected sensors from
 [`../idx/mrDMD-qr/`](../idx/) and feeds them to the Masked Transformer
 fine-tuner in `mt-cpso-f/stepd_finetune.py`. This requires the
@@ -103,8 +103,8 @@ Stage-1 pretrain checkpoint produced by
 
 ```bash
 cd baselines/mrdmd_qr
-bash run_finetune.sh                  # default K = 2..20
-bash run_finetune.sh "2 10 20"        # subset
+bash mrdmd_qr_f.sh                  # default K = 2..20
+bash mrdmd_qr_f.sh "2 10 20"        # subset
 ```
 
 Outputs land in `baselines/mrdmd_qr/mrdmd_qr_ft/K{K}/seed_42/finetune/`.

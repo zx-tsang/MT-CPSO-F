@@ -5,8 +5,8 @@
 #
 # Usage:
 #   cd baselines/svd_qr
-#   bash run_finetune.sh                       # K = 2..20 (default)
-#   bash run_finetune.sh "2 10 20"             # custom K list
+#   bash svd_qr_f.sh                       # K = 2..20 (default)
+#   bash svd_qr_f.sh "2 10 20"             # custom K list
 #
 # Prereq: mt-cpso-f/scripts/driver_pretrain.sh must have produced the
 # Stage-1 pretrain ckpt at the path encoded in $CKPT below.

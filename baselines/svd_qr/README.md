@@ -102,7 +102,7 @@ Outputs per energy:
 
 ## SVD-QR-F (finetune variant)
 
-[`run_finetune.sh`](run_finetune.sh) reproduces the **SVD-QR-F** row
+[`svd_qr_f.sh`](svd_qr_f.sh) reproduces the **SVD-QR-F** row
 in the paper's comparison table: it takes the QR-selected sensors from
 [`../idx/svd-qr/`](../idx/) and feeds them to the Masked Transformer
 fine-tuner in `mt-cpso-f/stepd_finetune.py`. This requires the
@@ -111,8 +111,8 @@ Stage-1 pretrain checkpoint produced by
 
 ```bash
 cd baselines/svd_qr
-bash run_finetune.sh                  # default K = 2..20
-bash run_finetune.sh "2 10 20"        # subset
+bash svd_qr_f.sh                  # default K = 2..20
+bash svd_qr_f.sh "2 10 20"        # subset
 ```
 
 Outputs land in `baselines/svd_qr/svd_qr_ft/K{K}/seed_42/finetune/`.
