@@ -1,0 +1,16 @@
+{
+  "title": "MT-CPSO-F: A Masked Transformer and Combinatorial PSO Framework for Full-Field Wind Pressure Reconstruction",
+  "description": "Reference implementation of MT-CPSO-F and three modal-basis baselines (SVD-QR, mrDMD-QR, POD-Transformer) for full-field wind pressure reconstruction from sparse sensors, accompanying the paper submitted to Automation in Construction. Code only; the TPU pressure-tap data is downloaded separately by the user from the TPU Aerodynamic Database.",
+  "upload_type": "software",
+  "license": "MIT",
+  "creators": [
+    { "name": "Zeng, Zi-xuan" }
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/zx-tsang/MT-CPSO-F",
+      "scheme": "url"
+    }
+  ]
+}
