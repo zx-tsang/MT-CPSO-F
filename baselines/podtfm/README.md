@@ -7,17 +7,8 @@ This baseline is **adapted from** the POD-LSTM framework of
 > constrained sensor networks.* Computer-Aided Civil and Infrastructure
 > Engineering 40, 2816-2832 (MICE 13488).
 
-The adaptation keeps Nav et al.'s four-stage POD + neural-decoder
-pipeline — (1) constrained QR sensor placement with a gappy
-low-fidelity reconstruction, (2) POD dimensionality reduction of both
-the low- and high-fidelity fields, (3) a neural surrogate that maps
-low-fidelity to high-fidelity POD coefficients, and (4) lifting the
-predicted coefficients back to the full field — and replaces the LSTM
-surrogate with a Transformer encoder of equivalent capacity, for
-capacity parity with MT-CPSO-F. As in Nav et al., the mean is removed
-only for QR sensor placement (the POD bases use the raw field, so the
-static mean is carried in the modes and the decoder needs no `+μ`
-offset), and the POD rank equals the sensor count *K* (`r = p = K`).
+The adaptation keeps Nav et al.'s POD + neural-decoder pipeline and
+replaces the LSTM with a Transformer.
 
 ## Pipeline
 
