@@ -2,7 +2,7 @@
 
 Pivoted QR sensor placement on a SVD basis of the training pressure
 field, with L2 (least-squares) and L1 (Lasso) reconstruction. Builds
-on the Brunton/Manohar line of work on data-driven sparse sensing.
+on the data-driven sparse-sensing approach of Manohar et al. (2018).
 
 ## Files
 

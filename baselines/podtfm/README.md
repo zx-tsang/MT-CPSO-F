@@ -7,12 +7,12 @@ This baseline is **adapted from** the POD-LSTM framework of
 > constrained sensor networks.* Computer-Aided Civil and Infrastructure
 > Engineering 40, 2816-2832 (MICE 13488).
 
-It follows the same POD + neural-decoder structure, but the LSTM in the
-original paper is replaced by a Transformer encoder of equivalent
-capacity to keep the comparison fair to MT-CPSO-F. This is an
-adaptation rather than a line-for-line port — some implementation
-details (e.g. the gappy-POD reconstruction and the two-SVD split below)
-differ from the original.
+The adaptation keeps the high-level POD + neural-decoder idea but
+replaces the LSTM with a Transformer encoder of equivalent capacity
+to keep the comparison fair to MT-CPSO-F, and rewires several internal
+choices (e.g. the gappy-POD reconstruction, the two-SVD split below,
+and the *r* = *K* coupling between POD rank and sensor count). It is
+therefore not a line-for-line port of the original paper.
 
 ## Pipeline
 
