@@ -17,7 +17,7 @@ data source only):
   basis + pivoted QR, L2 reconstruction (Al-Chalabi et al. 2025).
 - **POD-Transformer baseline** (`baselines/podtfm/`) — POD + neural-
   decoder hybrid; adapted from Nav et al. (2025) by replacing the LSTM
-  with a Transformer of equivalent capacity for a fair comparison.
+  with a Transformer.
 
 All four methods share the same 80 / 10 / 10 per-angle
 train / valid / test split and can be run independently.
@@ -109,7 +109,7 @@ python run_alpha_sweep_for_l1.py --energy 0.95
 
 ```bash
 cd baselines/mrdmd_qr
-python mrdmdqr_tpu_l2.py --strategy baseline --L 7 --max_cyc 5 --r_max 5
+python mrdmdqr_tpu_l2.py --angle_strategy baseline --no_hankel --L 7 --max_cyc 5 --r_max_per_dmd 5
 # Output → baselines/mrdmd_qr/mode_result/mrdmdqr_l2_baseline/
 ```
 
@@ -143,7 +143,7 @@ done
 | **MT-CPSO-F (ours)** | `cd mt-cpso-f && bash scripts/driver_pretrain.sh && bash scripts/chain_cpso_finetune.sh` | `params_main.json`: patience = 120, anchor_K = 10, curriculum-cosine LR |
 | SVD-QR (L2 99 %) | `cd baselines/svd_qr && python svdqr_tpu.py --energy 0.99 --variants baseline` | energy = 0.99 (rank ≈ 57) |
 | SVD-QR (L1 95 %, valid-tuned) | `cd baselines/svd_qr && python run_alpha_sweep_for_l1.py --energy 0.95` | α* selected on validation; ≈ 0.03 |
-| mrDMD-QR | `cd baselines/mrdmd_qr && python mrdmdqr_tpu_l2.py --strategy baseline --L 7 --max_cyc 5 --r_max 5` | L = 7, max_cyc = 5, r_max = 5, no Hankel embedding[^hankel] |
+| mrDMD-QR | `cd baselines/mrdmd_qr && python mrdmdqr_tpu_l2.py --angle_strategy baseline --no_hankel --L 7 --max_cyc 5 --r_max_per_dmd 5` | L = 7, max_cyc = 5, r_max = 5, no Hankel embedding[^hankel] |
 | SVD-QR-F | `cd baselines/svd_qr && bash svd_qr_f.sh` | QR-selected sensors from `baselines/idx/svd-qr/` + MT fine-tuning; requires pretrain ckpt from `mt-cpso-f/scripts/driver_pretrain.sh` |
 | mrDMD-QR-F | `cd baselines/mrdmd_qr && bash mrdmd_qr_f.sh` | QR-selected sensors from `baselines/idx/mrDMD-qr/` + MT fine-tuning; requires pretrain ckpt from `mt-cpso-f/scripts/driver_pretrain.sh` |
 
@@ -169,16 +169,27 @@ outputs.
 
 ## Data
 
-This repository **does not redistribute** the raw TPU pressure-tap
-data (see TPU licensing terms). The 11 `.mat` files (one per wind
-direction) must be downloaded directly from the TPU Aerodynamic
-Database:
+This repository ships **code only** — it does not redistribute the TPU
+pressure-tap data (see TPU licensing terms). There are two ways to get
+the data into [`raw_data/`](raw_data/):
+
+**Option A (recommended) — pre-processed archive on Zenodo.** Download
+the pre-processed `.npy` / `.npz` files accompanying the paper and
+unzip them into `raw_data/`. Nothing else is needed; every method then
+runs out of the box.
+
+> Zenodo archive: **DOI 10.5281/zenodo.XXXXXXX** *(assigned on publication)*
+
+**Option B — raw `.mat` from the TPU Aerodynamic Database.** Download
+the 11 `.mat` files (one per wind direction) directly from:
 
 > https://db.wind.arch.t-kougei.ac.jp/aerodynamic/experiment/highrise/
 
 Model T115 (square section, B : D : H = 1 : 1 : 5), suburban exposure
-(power-law α = 1/4). After download, place the 11 files at
-`raw_data/T115_4_xxx_1.mat` for xxx ∈ {000, 005, 010, …, 050}.
+(power-law α = 1/4). Place them at `raw_data/T115_4_xxx_1.mat` for
+xxx ∈ {000, 005, 010, …, 050}, then run
+`mt-cpso-f/stepa_preprocess.py` to regenerate
+`all_Data_all_place.npy`, `metadata.npz`, etc.
 
 The pre-processed `raw_data/cp_grid.npy` is ≈ 688 MB, laid out as
 `(n_angles, T, 4 faces, 25 height bins, 5 width bins)` with T = 32 768.
