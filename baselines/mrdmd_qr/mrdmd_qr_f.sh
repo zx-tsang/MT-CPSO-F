@@ -21,6 +21,7 @@ OUT_PREFIX="mrdmd_qr_ft"                       # outputs under baselines/mrdmd_q
 
 KS="${1:-2 4 6 8 10 12 14 16 18 20}"
 SEED=42
+EPOCHS="${EPOCHS:-40}"          # override for a quick smoke test, e.g. EPOCHS=3 bash mrdmd_qr_f.sh "10"
 
 # ------------------------------------------------------------------
 # Step 1: pre-stage each K's sensor list at the path stepd_finetune.py
@@ -62,7 +63,7 @@ for K in $KS; do
         --dataset $DATASET --params-json $PARAMS \
         --ckpt $CKPT --norm-file $NORM \
         --ms-out "$OUT_DIR" --total-sensors 500 \
-        --seeds $SEED --epochs 40 --lr 1e-5 \
+        --seeds $SEED --epochs $EPOCHS --lr 1e-5 \
         --early-stop-patience 8 --max-workers 1 > $LOG 2>&1
     echo "[$(date)] <<< mrdmd-qr-f K=$K done"
 done

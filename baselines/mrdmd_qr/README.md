@@ -33,13 +33,24 @@ the appropriate variant. See the docstring at the top of
 ## Quick run
 
 ```bash
-# Paper baseline: (L=7, max_cyc=5, r_max=5)
-python mrdmdqr_tpu_l2.py --angle_strategy baseline \
+# Paper baseline: textbook mrDMD (no Hankel), (L=7, max_cyc=5, r_max=5)
+python mrdmdqr_tpu_l2.py --angle_strategy baseline --no_hankel \
     --L 7 --max_cyc 5 --r_max_per_dmd 5
+
+# Quick smoke test (reduced snapshots + shallow tree, finishes in <1 min)
+python mrdmdqr_tpu_l2.py --angle_strategy baseline --no_hankel \
+    --n_snaps 1024 --L 2 --max_cyc 2 --r_max_per_dmd 3
 
 # Full three-stage hyperparameter grid sweep
 python grid_sweep_mrdmdqr_baseline.py
 ```
+
+> **Note on `--no_hankel`.** The paper baseline is the *textbook* (no
+> Hankel time-delay embedding) variant — see the VARIANT table below.
+> Pass `--no_hankel` to reproduce it. Omitting the flag activates the
+> Hankel-embedded variant, which is **much** slower (the time-delay
+> embedding makes every per-node DMD SVD far larger) and is not the
+> configuration reported in the paper.
 
 ## Output layout
 
