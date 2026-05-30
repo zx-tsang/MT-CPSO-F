@@ -50,27 +50,33 @@ bash scripts/chain_cpso_finetune.sh
 
 > **Note on wall-clock times.** The numbers below are the values
 > reported in the paper and were measured on the **Guangzhou Football
-> Park** dataset (1000 candidate taps × 36 wind directions × 9000
-> samples), the paper's primary case study. This open-source release
-> uses the **TPU benchmark** as a runnable *demo* (500 candidate taps
-> × 11 directions × 32 768 snapshots) — total sample count is
-> comparable but the input dimension is roughly half, so wall-clock
-> times on the demo are typically slightly shorter than the paper's
-> numbers.
+> Park** case study (1000 candidate taps × 36 wind directions × 9000
+> samples, full sweep K = 20..200 step 2 = 91 budgets, CPSO at
+> *N*<sub>p</sub>=100 and *k*<sub>max</sub>=800). This open-source
+> release runs the **TPU benchmark** as a much lighter *demo* (500
+> taps × 11 directions × 32 768 snapshots, only K = 2..20 = 10
+> budgets) and the CPSO step in
+> [`chain_cpso_finetune.sh`](mt-cpso-f/scripts/chain_cpso_finetune.sh)
+> is intentionally reduced to *N*<sub>p</sub>=40, *k*<sub>max</sub>=200,
+> early-stop=10, so the actual demo wall-clock is **substantially
+> shorter** than the paper's per-budget numbers below — the CPSO step
+> alone is roughly an order of magnitude faster per budget.
 
-Per-budget wall-clock breakdown on a single RTX 4090 (24 GB VRAM):
+Per-budget wall-clock breakdown reported in the paper (Guangzhou
+case study, single RTX 4090, 24 GB VRAM):
 
-| Stage | Time per budget |
+| Stage | Time per budget (paper) |
 |---|---:|
 | (b) Masked-Transformer pretraining (one-time, shared across all *K*) | 0.862 h |
 | (c) CPSO sensor search                                                | 0.882 h |
 | (d) Per-*K* targeted fine-tuning                                      | 1.078 h |
 | **Single-*K* total (b)+(c)+(d)**                                      | **2.820 h** |
 
-Stages (c) and (d) are embarrassingly parallel across *K*, so a pool of
-5 GPUs reduces the full *K* sweep from ~26 h serial to ~6.7 h
-(13-budget sweep from the paper). For the *K* = 2..20 demo here
-(10 budgets), expect ~20 h serial / ~4 h on 5 GPUs.
+Stages (c) and (d) are embarrassingly parallel across *K*, so a pool
+of 5 GPUs reduces the full Guangzhou *K* sweep from ~26 h serial to
+~6.7 h (13-budget sub-sweep). The TPU demo here is much smaller
+(10 budgets, lighter CPSO settings) and finishes in a fraction of
+that time — exact figures depend on your hardware.
 
 See [`mt-cpso-f/scripts/params_main.json`](mt-cpso-f/scripts/params_main.json)
 for the exact hyper-parameters (`early_stopping_patience=120`,
@@ -140,17 +146,18 @@ done
 
 ## Pre-computed sensor placements
 
-[`idx/`](idx/) ships the SVD-QR and mrDMD-QR sensor indices already
-extracted from the QR pivots, so downstream users can skip the QR step
-and load the baseline placements directly:
+[`baselines/idx/`](baselines/idx/) ships the SVD-QR and mrDMD-QR
+sensor indices already extracted from the QR pivots, so downstream
+users can skip the QR step and load the baseline placements directly:
 
 ```
-idx/svd-qr/sensors_n{N}.txt        N pivoted-QR sensor IDs from the SVD basis
-idx/mrDMD-qr/sensors_n{N}.txt      N pivoted-QR sensor IDs from the mrDMD basis
+baselines/idx/svd-qr/sensors_n{N}.txt        N pivoted-QR sensor IDs from the SVD basis
+baselines/idx/mrDMD-qr/sensors_n{N}.txt      N pivoted-QR sensor IDs from the mrDMD basis
 ```
 
-Use [`idx/extract_idx.py`](idx/extract_idx.py) to (re-)generate these
-files from the per-method `mode_result` xlsx outputs.
+Use [`baselines/idx/extract_idx.py`](baselines/idx/extract_idx.py) to
+(re-)generate these files from the per-method `mode_result` xlsx
+outputs.
 
 ## Data
 
@@ -204,7 +211,7 @@ If you use this code, please cite the accompanying paper:
              and Combinatorial PSO Framework for Full-Field Wind
              Pressure Reconstruction},
   author  = {Tsang, Zhixuan and others},
-  journal = {Computer-Aided Civil and Infrastructure Engineering},
+  journal = {Automation in Construction},
   year    = {2026},
   note    = {Under review.}
 }
@@ -234,30 +241,30 @@ If you use this code, please cite the accompanying paper:
 │   ├── params.yaml            default hyper-parameters
 │   └── scripts/               driver_pretrain.sh, chain_cpso_finetune.sh, params_main.json
 │
-├── baselines/                 three modal-basis baselines (grouped for clarity)
-│   ├── svd_qr/                SVD-QR baseline (Brunton/Manohar line)
-│   │   ├── svdqr_tpu.py       main script: SVD + QR + L2 / L1 variants
-│   │   ├── run_alpha_sweep_for_l1.py   Lasso α hyper-parameter sweep
-│   │   └── README.md
-│   │
-│   ├── mrdmd_qr/              mrDMD-QR baseline (Al-Chalabi et al. 2025)
-│   │   ├── mrdmd_utils.py     build_mrdmd_basis() — dyadic tree + DMD library
-│   │   ├── mrdmdqr_tpu_l2.py  main script: mrDMD + QR + L2
-│   │   ├── grid_sweep_mrdmdqr_baseline.py   (L, max_cyc, r_max) sweep
-│   │   └── README.md
-│   │
-│   └── podtfm/                POD-Transformer baseline (adapted from Nav et al. 2025)
-│       ├── stepa_preprocess.py    SVD + gappy POD + windowing (multi-K)
-│       ├── stepb_train.py         single-K Transformer training (bf16, GPU-resident)
-│       ├── stepb_train_parallel.py    multi-K parallel training
-│       ├── stepc_evaluate.py      lift coefficients back to 500-D Cp + MAE
-│       ├── sweep_parallel.sh      end-to-end K sweep
-│       └── README.md
-│
-└── idx/                       pre-computed sensor indices (SVD-QR / mrDMD-QR)
-    ├── extract_idx.py         tool to (re-)extract index .txt from mode_result xlsx
-    ├── svd-qr/sensors_n*.txt
-    └── mrDMD-qr/sensors_n*.txt
+└── baselines/                 three modal-basis baselines + sensor-index cache
+    ├── svd_qr/                SVD-QR baseline (Brunton/Manohar line)
+    │   ├── svdqr_tpu.py       main script: SVD + QR + L2 / L1 variants
+    │   ├── run_alpha_sweep_for_l1.py   Lasso α hyper-parameter sweep
+    │   └── README.md
+    │
+    ├── mrdmd_qr/              mrDMD-QR baseline (Al-Chalabi et al. 2025)
+    │   ├── mrdmd_utils.py     build_mrdmd_basis() — dyadic tree + DMD library
+    │   ├── mrdmdqr_tpu_l2.py  main script: mrDMD + QR + L2
+    │   ├── grid_sweep_mrdmdqr_baseline.py   (L, max_cyc, r_max) sweep
+    │   └── README.md
+    │
+    ├── podtfm/                POD-Transformer baseline (adapted from Nav et al. 2025)
+    │   ├── stepa_preprocess.py    SVD + gappy POD + windowing (multi-K)
+    │   ├── stepb_train.py         single-K Transformer training (bf16, GPU-resident)
+    │   ├── stepb_train_parallel.py    multi-K parallel training
+    │   ├── stepc_evaluate.py      lift coefficients back to 500-D Cp + MAE
+    │   ├── sweep_parallel.sh      end-to-end K sweep
+    │   └── README.md
+    │
+    └── idx/                   pre-computed sensor indices (SVD-QR / mrDMD-QR)
+        ├── extract_idx.py     tool to (re-)extract index .txt from mode_result xlsx
+        ├── svd-qr/sensors_n*.txt
+        └── mrDMD-qr/sensors_n*.txt
 ```
 
 </details>

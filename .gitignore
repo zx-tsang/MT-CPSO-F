@@ -9,8 +9,8 @@ __pycache__/
 *.npz
 *.npy
 # Generated xlsx output from baseline runs (NOT the small reference xlsx
-# under idx/, which we DO commit because they are part of the artefact
-# release).
+# under baselines/idx/, which we DO commit because they are part of the
+# artefact release).
 mode_result/**/*.xlsx
 
 # Raw / derived data (each user fetches their own from the TPU database).

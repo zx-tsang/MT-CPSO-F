@@ -3,10 +3,10 @@
 For each sensor count n in {2, 4, ..., 20}, picks the n tap-ids that
 the QR pivoting would deploy. Writes:
 
-    idx/svd-qr/sensors_n{n}.txt           (1 tap-id per line)
-    idx/svd-qr/svd-qr_idx_all.xlsx        (long table)
-    idx/mrDMD-qr/sensors_n{n}.txt
-    idx/mrDMD-qr/mrDMD-qr_idx_all.xlsx
+    baselines/idx/svd-qr/sensors_n{n}.txt           (1 tap-id per line)
+    baselines/idx/svd-qr/svd-qr_idx_all.xlsx        (long table)
+    baselines/idx/mrDMD-qr/sensors_n{n}.txt
+    baselines/idx/mrDMD-qr/mrDMD-qr_idx_all.xlsx
 
 Tap IDs are 0-based (consistent with numpy / cp_grid indexing
 convention) — feed them straight into U_r[sel, :] or cp_grid[sel].
@@ -27,7 +27,7 @@ mrDMD-QR uses the paper baseline:
     N_SNAPS = 30000 (full training portion of every angle)
 
 Run from anywhere:
-    python idx/extract_idx.py
+    python baselines/idx/extract_idx.py
 """
 import sys
 from pathlib import Path
@@ -37,10 +37,11 @@ import numpy as np
 import pandas as pd
 from scipy.linalg import qr
 
-HERE = Path(__file__).resolve().parent       # idx/
-ROOT = HERE.parent                            # repository root
-sys.path.insert(0, str(ROOT / "baselines" / "svd_qr"))
-sys.path.insert(0, str(ROOT / "baselines" / "mrdmd_qr"))
+HERE = Path(__file__).resolve().parent       # baselines/idx/
+BASELINES = HERE.parent                       # baselines/
+ROOT = BASELINES.parent                       # repository root
+sys.path.insert(0, str(BASELINES / "svd_qr"))
+sys.path.insert(0, str(BASELINES / "mrdmd_qr"))
 
 NS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
 

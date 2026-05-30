@@ -136,12 +136,9 @@ capacity.
 
 We report the **large** variant in the main paper, not because it is
 better (the ablation above shows it is not), but for **capacity
-parity with MT-CPSO-F**:
-
-- MT-CPSO-F uses a Transformer encoder of `d_model=1024, n_head=16,
-  n_layers=2` (~21 M params).
-- The `params_large.yaml` POD-Transformer matches that capacity
-  (`d_model=1024, n_head=16, n_layers=3`, ~18 M params).
+parity with MT-CPSO-F**: the `params_large.yaml` POD-Transformer uses
+the same `d_model=1024, n_head=16` encoder as MT-CPSO-F, so the two
+sides of the comparison have matching encoder capacity.
 
 Reporting the large variant therefore eliminates "model capacity" as
 a possible explanation for the residual MAE gap between POD-Transformer

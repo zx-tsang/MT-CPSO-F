@@ -1,9 +1,8 @@
 # SVD-QR baseline
 
 Pivoted QR sensor placement on a SVD basis of the training pressure
-field, with L2 (least-squares) and L1 (MATLAB-style Lasso)
-reconstruction. Follows the Brunton/Manohar/Erichson line of work
-on data-driven sparse sensing.
+field, with L2 (least-squares) and L1 (Lasso) reconstruction. Builds
+on the Brunton/Manohar line of work on data-driven sparse sensing.
 
 ## Files
 
@@ -109,10 +108,3 @@ Pivoted QR for sensor selection from a POD basis:
 > *Data-Driven Sparse Sensor Placement for Reconstruction: Demonstrating
 > the Benefits of Exploiting Known Patterns.* IEEE Control Systems
 > Magazine, 38(3), 63-86.
-
-L1 with shallow neural networks for reconstruction:
-
-> Erichson N. B., Mathelin L., Yao Z., Brunton S. L., Mahoney M. W.,
-> Kutz J. N. (2020). *Shallow neural networks for fluid flow
-> reconstruction with limited sensors.* Proc. Royal Society A,
-> 476(2238), 20200097.
