@@ -27,10 +27,9 @@ import numpy as np
 import scipy.linalg as sla
 import yaml
 
-ROOT = Path(__file__).resolve().parent
-if not (ROOT / "params.yaml").exists() and (ROOT.parent / "params.yaml").exists():
-    ROOT = ROOT.parent
-RAW = ROOT / "raw_data"
+ROOT = Path(__file__).resolve().parent          # baselines/podtfm/ (params.yaml here)
+PROJECT_ROOT = ROOT.parent.parent                # repository root (raw_data here)
+RAW = PROJECT_ROOT / "raw_data"
 N_TAPS = 500
 
 

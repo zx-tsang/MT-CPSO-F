@@ -9,7 +9,8 @@ set -euo pipefail
 
 SIZE="${1:-small}"
 KS="${2:-2 4 6 8 10 12 14 16 18 20}"
-ROOT="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$(dirname "$0")" && pwd)"            # baselines/podtfm/
+PROJECT_ROOT="$(cd "$ROOT/../.." && pwd)"        # repository root (shared raw_data here)
 cd "$ROOT"
 PYBIN="${PYBIN:-python}"
 case "$SIZE" in
@@ -34,7 +35,7 @@ tail -15 "$LOG_DIR/stepb_train.log"
 
 for K in $KS; do
     TAG="podtfm_p${K}_k${K}"
-    DATA="$ROOT/raw_data/$TAG"
+    DATA="$PROJECT_ROOT/raw_data/$TAG"
     LOG="$LOG_DIR/K${K}_steprc.log"
     EVAL_DIR="$ROOT/output_sensor/$TAG/eval"
 

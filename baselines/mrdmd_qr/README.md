@@ -43,9 +43,9 @@ python grid_sweep_mrdmdqr_baseline.py
 
 ## Output layout
 
-Results are written under `mrdmd_qr/mode_result/` (mirrors the
-`svd_qr/mode_result/` layout so the two baselines look the same to
-an open-source user):
+Results are written under `baselines/mrdmd_qr/mode_result/` (mirrors
+the `baselines/svd_qr/mode_result/` layout so the two baselines look
+the same to an open-source user):
 
 ```
 mode_result/

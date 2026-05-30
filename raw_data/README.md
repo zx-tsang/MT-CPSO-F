@@ -17,7 +17,7 @@ raw_data/
 └── T115_4_xxx_1.mat       11 raw files, xxx ∈ {000,005,...,050}
 ```
 
-All four methods (mt-cpso-f / podtfm_baseline / svd_qr / mrdmd_qr)
+All four methods (mt-cpso-f / baselines/svd_qr / baselines/mrdmd_qr / baselines/podtfm)
 resolve their data path to this folder automatically — no env vars
 needed.
 

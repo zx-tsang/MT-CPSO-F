@@ -142,9 +142,9 @@ from sklearn.linear_model import Lasso
 
 warnings.filterwarnings("ignore")
 
-# Repository layout: this script lives at svd_qr/svdqr_tpu.py and reads
-# the shared raw_data/ one level up at the repository root.
-ROOT = Path(__file__).resolve().parent.parent
+# Repository layout: this script lives at baselines/svd_qr/svdqr_tpu.py
+# and reads the shared raw_data/ at the repository root (two levels up).
+ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = ROOT / "raw_data"
 MODE_RESULT_ROOT = Path(__file__).resolve().parent / "mode_result"
 

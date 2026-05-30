@@ -10,12 +10,12 @@ data source only):
 - **MT-CPSO-F** (`mt-cpso-f/`) **— primary contribution.**
   Masked-reconstruction Transformer pre-training + Cooperative PSO
   sensor search + targeted fine-tuning.
-- **SVD-QR baseline** (`svd_qr/`) — Brunton/Manohar-style pivoted QR
-  on the SVD basis, with L2 (least-squares) and L1 (Lasso)
+- **SVD-QR baseline** (`baselines/svd_qr/`) — Brunton/Manohar-style
+  pivoted QR on the SVD basis, with L2 (least-squares) and L1 (Lasso)
   reconstruction.
-- **mrDMD-QR baseline** (`mrdmd_qr/`) — Multi-resolution DMD basis +
-  pivoted QR, L2 reconstruction (Al-Chalabi et al. 2025).
-- **POD-Transformer baseline** (`podtfm_baseline/`) — POD + neural-
+- **mrDMD-QR baseline** (`baselines/mrdmd_qr/`) — Multi-resolution DMD
+  basis + pivoted QR, L2 reconstruction (Al-Chalabi et al. 2025).
+- **POD-Transformer baseline** (`baselines/podtfm/`) — POD + neural-
   decoder hybrid; adapted from Nav et al. (2025) by replacing the LSTM
   with a Transformer of equivalent capacity for a fair comparison.
 
@@ -80,46 +80,46 @@ pure MSE training objective).
 ### SVD-QR — L2 baseline at energy = 0.95
 
 ```bash
-cd svd_qr
+cd baselines/svd_qr
 python svdqr_tpu.py --energy 0.95
-# Output → svd_qr/mode_result/svdqr_l2_baseline_95pct/  (and 3 more variant dirs)
+# Output → baselines/svd_qr/mode_result/svdqr_l2_baseline_95pct/  (and 3 more variant dirs)
 ```
 
 ### SVD-QR — L1 baseline with valid-tuned α at energy = 0.95
 
 ```bash
-cd svd_qr
+cd baselines/svd_qr
 python run_alpha_sweep_for_l1.py --energy 0.95
-# Output → svd_qr/mode_result/svdqr_l1_alpha_sweep_95pct/
+# Output → baselines/svd_qr/mode_result/svdqr_l1_alpha_sweep_95pct/
 ```
 
 ### mrDMD-QR — single config
 
 ```bash
-cd mrdmd_qr
+cd baselines/mrdmd_qr
 python mrdmdqr_tpu_l2.py --strategy baseline --L 7 --max_cyc 5 --r_max 5
-# Output → mrdmd_qr/mode_result/mrdmdqr_l2_baseline/
+# Output → baselines/mrdmd_qr/mode_result/mrdmdqr_l2_baseline/
 ```
 
 ### mrDMD-QR — full hyperparameter grid sweep
 
 ```bash
-cd mrdmd_qr
+cd baselines/mrdmd_qr
 python grid_sweep_mrdmdqr_baseline.py
-# Output → mrdmd_qr/mode_result/sweep/<variant>_<snap>/
+# Output → baselines/mrdmd_qr/mode_result/sweep/<variant>_<snap>/
 ```
 
 ### POD-Transformer baseline — multi-K sweep
 
 ```bash
-cd podtfm_baseline
+cd baselines/podtfm
 # (a) build per-K input artefacts (shared SVDs, one LF-SVD per K)
 python stepa_preprocess.py --ks 2 4 6 8 10 12 14 16 18 20
 # (b) train all K in parallel on one GPU
 python stepb_train_parallel.py --ks 2 4 6 8 10 12 14 16 18 20
 # (c) evaluate every K back to physical 500-D Cp
 for K in 2 4 6 8 10 12 14 16 18 20; do
-  python stepc_evaluate.py --data-dir raw_data/podtfm_p${K}_k${K} \
+  python stepc_evaluate.py --data-dir ../../raw_data/podtfm_p${K}_k${K} \
       --tag podtfm_p${K}_k${K} --split test --k $K
 done
 ```
@@ -129,9 +129,9 @@ done
 | Method | Command | Reported hyperparameters |
 |---|---|---|
 | **MT-CPSO-F (ours)** | `cd mt-cpso-f && bash scripts/driver_pretrain.sh && bash scripts/chain_cpso_finetune.sh` | `params_main.json`: patience = 120, anchor_K = 10, curriculum-cosine LR |
-| SVD-QR (L2 99 %) | `python svdqr_tpu.py --energy 0.99 --variants baseline` | energy = 0.99 (rank ≈ 57) |
-| SVD-QR (L1 95 %, valid-tuned) | `python run_alpha_sweep_for_l1.py --energy 0.95` | α* selected on validation; ≈ 0.03 |
-| mrDMD-QR | `python mrdmdqr_tpu_l2.py --strategy baseline --L 7 --max_cyc 5 --r_max 5` | L = 7, max_cyc = 5, r_max = 5, no Hankel embedding[^hankel] |
+| SVD-QR (L2 99 %) | `cd baselines/svd_qr && python svdqr_tpu.py --energy 0.99 --variants baseline` | energy = 0.99 (rank ≈ 57) |
+| SVD-QR (L1 95 %, valid-tuned) | `cd baselines/svd_qr && python run_alpha_sweep_for_l1.py --energy 0.95` | α* selected on validation; ≈ 0.03 |
+| mrDMD-QR | `cd baselines/mrdmd_qr && python mrdmdqr_tpu_l2.py --strategy baseline --L 7 --max_cyc 5 --r_max 5` | L = 7, max_cyc = 5, r_max = 5, no Hankel embedding[^hankel] |
 
 [^hankel]: A Hankel time-delay embedding is sometimes added before
     DMD to enrich the modal basis. Our mrDMD-QR baseline is adapted
@@ -191,8 +191,8 @@ The TPU Aerodynamic Database license requires citing all three:
 > (EACWE5)*, Florence, Italy, 19–23 July 2009, p. 25.
 
 For the methodological sources of each baseline, see the per-method
-READMEs in [`svd_qr/`](svd_qr/), [`mrdmd_qr/`](mrdmd_qr/), and
-[`podtfm_baseline/`](podtfm_baseline/).
+READMEs under [`baselines/`](baselines/) (one per baseline:
+`svd_qr/`, `mrdmd_qr/`, `podtfm/`).
 
 ## Citation
 
@@ -234,24 +234,25 @@ If you use this code, please cite the accompanying paper:
 │   ├── params.yaml            default hyper-parameters
 │   └── scripts/               driver_pretrain.sh, chain_cpso_finetune.sh, params_main.json
 │
-├── svd_qr/                    SVD-QR baseline (Brunton/Manohar line)
-│   ├── svdqr_tpu.py           main script: SVD + QR + L2 / L1 variants
-│   ├── run_alpha_sweep_for_l1.py   Lasso α hyper-parameter sweep
-│   └── README.md
-│
-├── mrdmd_qr/                  mrDMD-QR baseline (Al-Chalabi et al. 2025)
-│   ├── mrdmd_utils.py         build_mrdmd_basis() — dyadic tree + DMD library
-│   ├── mrdmdqr_tpu_l2.py      main script: mrDMD + QR + L2
-│   ├── grid_sweep_mrdmdqr_baseline.py   (L, max_cyc, r_max) sweep
-│   └── README.md
-│
-├── podtfm_baseline/           POD-Transformer baseline (adapted from Nav et al. 2025)
-│   ├── stepa_preprocess.py    SVD + gappy POD + windowing (multi-K)
-│   ├── stepb_train.py         single-K Transformer training (bf16, GPU-resident)
-│   ├── stepb_train_parallel.py    multi-K parallel training
-│   ├── stepc_evaluate.py      lift coefficients back to 500-D Cp + MAE
-│   ├── sweep_parallel.sh      end-to-end K sweep
-│   └── README.md
+├── baselines/                 three modal-basis baselines (grouped for clarity)
+│   ├── svd_qr/                SVD-QR baseline (Brunton/Manohar line)
+│   │   ├── svdqr_tpu.py       main script: SVD + QR + L2 / L1 variants
+│   │   ├── run_alpha_sweep_for_l1.py   Lasso α hyper-parameter sweep
+│   │   └── README.md
+│   │
+│   ├── mrdmd_qr/              mrDMD-QR baseline (Al-Chalabi et al. 2025)
+│   │   ├── mrdmd_utils.py     build_mrdmd_basis() — dyadic tree + DMD library
+│   │   ├── mrdmdqr_tpu_l2.py  main script: mrDMD + QR + L2
+│   │   ├── grid_sweep_mrdmdqr_baseline.py   (L, max_cyc, r_max) sweep
+│   │   └── README.md
+│   │
+│   └── podtfm/                POD-Transformer baseline (adapted from Nav et al. 2025)
+│       ├── stepa_preprocess.py    SVD + gappy POD + windowing (multi-K)
+│       ├── stepb_train.py         single-K Transformer training (bf16, GPU-resident)
+│       ├── stepb_train_parallel.py    multi-K parallel training
+│       ├── stepc_evaluate.py      lift coefficients back to 500-D Cp + MAE
+│       ├── sweep_parallel.sh      end-to-end K sweep
+│       └── README.md
 │
 └── idx/                       pre-computed sensor indices (SVD-QR / mrDMD-QR)
     ├── extract_idx.py         tool to (re-)extract index .txt from mode_result xlsx

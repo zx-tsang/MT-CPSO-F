@@ -39,8 +39,8 @@ from scipy.linalg import qr
 
 HERE = Path(__file__).resolve().parent       # idx/
 ROOT = HERE.parent                            # repository root
-sys.path.insert(0, str(ROOT / "svd_qr"))
-sys.path.insert(0, str(ROOT / "mrdmd_qr"))
+sys.path.insert(0, str(ROOT / "baselines" / "svd_qr"))
+sys.path.insert(0, str(ROOT / "baselines" / "mrdmd_qr"))
 
 NS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
 

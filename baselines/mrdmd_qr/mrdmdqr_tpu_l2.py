@@ -189,10 +189,10 @@ def _build_mrdmd_basis_nohankel(train_list, max_levels, max_cyc, r_dmd, dt):
     return Phi_real, info
 
 ROOT = Path(__file__).resolve().parent
-PROJECT_ROOT = ROOT.parent              # repository root, shared with svd_qr/
+PROJECT_ROOT = ROOT.parent.parent       # repository root (two levels up from baselines/mrdmd_qr/)
 RAW_DIR = PROJECT_ROOT / "raw_data"
-# Results live next to the code at mrdmd_qr/mode_result/, matching the
-# svd_qr/ layout for consistency.
+# Results live next to the code at baselines/mrdmd_qr/mode_result/,
+# matching the baselines/svd_qr/ layout for consistency.
 MODE_RESULT_ROOT = ROOT / "mode_result"
 
 # =====================================================================

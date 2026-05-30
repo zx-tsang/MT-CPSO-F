@@ -32,7 +32,7 @@ Usage:
            --alphas 1e-3,3e-3,1e-2,3e-2,1e-1
 
 Output:
-    svd_qr/mode_result/svdqr_l1_alpha_sweep_<pct>/
+    baselines/svd_qr/mode_result/svdqr_l1_alpha_sweep_<pct>/
         mae_test_at_alpha_star_<pct>.xlsx           (TEST, at alpha*)
         mae_valid_alpha<tag>_<pct>.xlsx             (per-alpha VALID, one per alpha)
         alpha_grid_summary.xlsx                     (all alphas on VALID, wide)

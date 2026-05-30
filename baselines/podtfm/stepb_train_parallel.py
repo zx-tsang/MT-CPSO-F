@@ -26,9 +26,8 @@ import torch
 import torch.nn as nn
 
 import sys
-ROOT = Path(__file__).resolve().parent
-if not (ROOT / "params.yaml").exists() and (ROOT.parent / "params.yaml").exists():
-    ROOT = ROOT.parent
+ROOT = Path(__file__).resolve().parent          # baselines/podtfm/ (params.yaml + utils.py here)
+PROJECT_ROOT = ROOT.parent.parent                # repository root (raw_data here)
 sys.path.insert(0, str(ROOT))
 
 from utils import EarlyStopping, Params
@@ -41,7 +40,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--params",   default=str(ROOT / "params.yaml"))
 parser.add_argument("--ks",       type=int, nargs="+", required=True,
                     help="K values to train concurrently")
-parser.add_argument("--raw-dir",  default=str(ROOT / "raw_data"))
+parser.add_argument("--raw-dir",  default=str(PROJECT_ROOT / "raw_data"))
 parser.add_argument("--out-dir",  default=str(ROOT / "output_sensor"))
 parser.add_argument("--lr",        type=float, default=None)
 parser.add_argument("--epochs",    type=int,   default=None)

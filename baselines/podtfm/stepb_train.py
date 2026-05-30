@@ -41,10 +41,9 @@ import torch.nn as nn
 from torch.utils.data import Dataset
 
 import sys
-ROOT = Path(__file__).resolve().parent
-if not (ROOT / "params.yaml").exists() and (ROOT.parent / "params.yaml").exists():
-    ROOT = ROOT.parent
-sys.path.insert(0, str(ROOT))      # so `from utils import ...` works when script is in a subdir
+ROOT = Path(__file__).resolve().parent          # baselines/podtfm/ (params.yaml + utils.py here)
+PROJECT_ROOT = ROOT.parent.parent                # repository root (raw_data here)
+sys.path.insert(0, str(ROOT))      # so `from utils import ...` works
 
 from utils import EarlyStopping, Params
 
@@ -54,7 +53,7 @@ DEFAULT_TAG = "baseline_nav_podtfm"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--params",   default=str(ROOT / "params.yaml"))
-parser.add_argument("--data-dir", default=str(ROOT / "raw_data" / "podtfm_p6_k6"))
+parser.add_argument("--data-dir", default=str(PROJECT_ROOT / "raw_data" / "podtfm_p6_k6"))
 parser.add_argument("--out-dir",  default=str(ROOT / "output_sensor"))
 parser.add_argument("--tag",      default=DEFAULT_TAG,
                     help="output subdir under output_sensor/{model,DeFigs}/; "

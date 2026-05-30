@@ -6,7 +6,7 @@ Unknown_MAE at multiple sensor counts. Reuses load_data / build_basis /
 reconstruct_l2 from the main script so any change in the upstream
 pipeline propagates automatically.
 
-Outputs (under mrdmd_qr/mode_result/sweep/<variant>_<snap>/):
+Outputs (under baselines/mrdmd_qr/mode_result/sweep/<variant>_<snap>/):
   grid_summary.xlsx      one row per (L, max_cyc, r_max, n)
   grid_per_angle.xlsx    one row per (L, max_cyc, r_max, n, AOA)
   heatmap_n{N}.png       L x max_cyc heatmap of Unknown_MAE_Mean per r_max,

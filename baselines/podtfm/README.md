@@ -46,20 +46,23 @@ into mode 1 and there is no `+μ` offset in the decoder).
 
 ## Data layout
 
-Before running stepa, place the raw T115_4 wind-tunnel data into `./raw_data/`:
+This baseline reads from the shared `raw_data/` at the repository root
+(two levels up from this folder). Before running stepa, make sure the
+following files exist at `<repo-root>/raw_data/`:
 
 ```
-raw_data/
+<repo-root>/raw_data/
     all_Data_all_place.npy    # (500, n_angles * n_t_per_angle) full Cp time series
     metadata.npz              # keys: angles, n_t_per_angle, fs
 ```
 
-`stepa_preprocess.py` writes per-K artifacts back into the same folder under
-`raw_data/podtfm_p{K}_k{K}/`.
+`stepa_preprocess.py` writes per-K artifacts back into the same shared
+folder at `<repo-root>/raw_data/podtfm_p{K}_k{K}/`.
 
 ## Quick start
 
-All commands assume the working directory is this folder.
+All commands assume the working directory is this folder
+(`baselines/podtfm/`).
 
 ```bash
 # 1. Prepare data for K = 2,4,...,20 in one shot
@@ -72,7 +75,7 @@ python stepb_train_parallel.py --params params.yaml \
 # 3. Evaluate per K
 for K in 2 4 6 8 10 12 14 16 18 20; do
   python stepc_evaluate.py --params params.yaml \
-      --data-dir raw_data/podtfm_p${K}_k${K} \
+      --data-dir ../../raw_data/podtfm_p${K}_k${K} \
       --tag podtfm_p${K}_k${K} --split test --k $K
 done
 ```

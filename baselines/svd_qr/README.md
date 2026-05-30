@@ -46,7 +46,7 @@ python run_alpha_sweep_for_l1.py --energy 0.95
 python svdqr_tpu.py --energy 0.99 --variants baseline
 ```
 
-Both scripts write under `svd_qr/mode_result/`:
+Both scripts write under `baselines/svd_qr/mode_result/`:
 - `svdqr_tpu.py` → `svdqr_l2_<variant>_<tag>/`, `svdqr_l1_baseline_<l1_tag>/`, `svdqr_summary_<tag>/`
 - `run_alpha_sweep_for_l1.py` → `svdqr_l1_alpha_sweep_<pct>/`
 
