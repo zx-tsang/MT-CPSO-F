@@ -92,6 +92,23 @@ other two are kept in the code as ablation knobs for readers who want
 to probe how Hankel embedding and orthonormalisation affect mrDMD-QR
 performance on this dataset.
 
+## mrDMD-QR-F (finetune variant)
+
+[`run_finetune.sh`](run_finetune.sh) reproduces the **mrDMD-QR-F** row
+in the paper's comparison table: it takes the QR-selected sensors from
+[`../idx/mrDMD-qr/`](../idx/) and feeds them to the Masked Transformer
+fine-tuner in `mt-cpso-f/stepd_finetune.py`. This requires the
+Stage-1 pretrain checkpoint produced by
+`mt-cpso-f/scripts/driver_pretrain.sh`.
+
+```bash
+cd baselines/mrdmd_qr
+bash run_finetune.sh                  # default K = 2..20
+bash run_finetune.sh "2 10 20"        # subset
+```
+
+Outputs land in `baselines/mrdmd_qr/mrdmd_qr_ft/K{K}/seed_42/finetune/`.
+
 ## Reference
 
 > Al-Chalabi R., Alanani M., Elshaer A., El Damatty A. (2025).

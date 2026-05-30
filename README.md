@@ -144,8 +144,8 @@ done
 | SVD-QR (L2 99 %) | `cd baselines/svd_qr && python svdqr_tpu.py --energy 0.99 --variants baseline` | energy = 0.99 (rank ≈ 57) |
 | SVD-QR (L1 95 %, valid-tuned) | `cd baselines/svd_qr && python run_alpha_sweep_for_l1.py --energy 0.95` | α* selected on validation; ≈ 0.03 |
 | mrDMD-QR | `cd baselines/mrdmd_qr && python mrdmdqr_tpu_l2.py --strategy baseline --L 7 --max_cyc 5 --r_max 5` | L = 7, max_cyc = 5, r_max = 5, no Hankel embedding[^hankel] |
-| SVD-QR-F | `cd mt-cpso-f && bash scripts/chain_qr_finetune.sh svd-qr` | QR-selected sensors from `baselines/idx/svd-qr/` + MT fine-tuning; requires pretrain ckpt from driver_pretrain.sh |
-| mrDMD-QR-F | `cd mt-cpso-f && bash scripts/chain_qr_finetune.sh mrdmd-qr` | QR-selected sensors from `baselines/idx/mrDMD-qr/` + MT fine-tuning; requires pretrain ckpt from driver_pretrain.sh |
+| SVD-QR-F | `cd baselines/svd_qr && bash run_finetune.sh` | QR-selected sensors from `baselines/idx/svd-qr/` + MT fine-tuning; requires pretrain ckpt from `mt-cpso-f/scripts/driver_pretrain.sh` |
+| mrDMD-QR-F | `cd baselines/mrdmd_qr && bash run_finetune.sh` | QR-selected sensors from `baselines/idx/mrDMD-qr/` + MT fine-tuning; requires pretrain ckpt from `mt-cpso-f/scripts/driver_pretrain.sh` |
 
 [^hankel]: A Hankel time-delay embedding is sometimes added before
     DMD to enrich the modal basis. Our mrDMD-QR baseline is adapted
@@ -248,18 +248,20 @@ If you use this code, please cite the accompanying paper:
 │   ├── network/               Transformer modules
 │   ├── dataloader.py          datasets + Params + EarlyStopping
 │   ├── params.yaml            default hyper-parameters
-│   └── scripts/               driver_pretrain.sh, chain_cpso_finetune.sh, chain_qr_finetune.sh, params_main.json
+│   └── scripts/               driver_pretrain.sh, chain_cpso_finetune.sh, params_main.json
 │
 └── baselines/                 three modal-basis baselines + sensor-index cache
     ├── svd_qr/                SVD-QR baseline (Manohar et al. 2018)
     │   ├── svdqr_tpu.py       main script: SVD + QR + L2 / L1 variants
     │   ├── run_alpha_sweep_for_l1.py   Lasso α hyper-parameter sweep
+    │   ├── run_finetune.sh    SVD-QR-F variant: QR sensors + MT fine-tuning
     │   └── README.md
     │
     ├── mrdmd_qr/              mrDMD-QR baseline (Al-Chalabi et al. 2025)
     │   ├── mrdmd_utils.py     build_mrdmd_basis() — dyadic tree + DMD library
     │   ├── mrdmdqr_tpu_l2.py  main script: mrDMD + QR + L2
     │   ├── grid_sweep_mrdmdqr_baseline.py   (L, max_cyc, r_max) sweep
+    │   ├── run_finetune.sh    mrDMD-QR-F variant: QR sensors + MT fine-tuning
     │   └── README.md
     │
     ├── podtfm/                POD-Transformer baseline (adapted from Nav et al. 2025)
