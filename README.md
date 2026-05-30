@@ -170,18 +170,9 @@ outputs.
 ## Data
 
 This repository ships **code only** — it does not redistribute the TPU
-pressure-tap data (see TPU licensing terms). There are two ways to get
-the data into [`raw_data/`](raw_data/):
-
-**Option A (recommended) — pre-processed archive on Zenodo.** Download
-the pre-processed `.npy` / `.npz` files accompanying the paper and
-unzip them into `raw_data/`. Nothing else is needed; every method then
-runs out of the box.
-
-> Zenodo archive: **DOI 10.5281/zenodo.XXXXXXX** *(assigned on publication)*
-
-**Option B — raw `.mat` from the TPU Aerodynamic Database.** Download
-the 11 `.mat` files (one per wind direction) directly from:
+pressure-tap data (see TPU licensing terms). Download the 11 `.mat`
+files (one per wind direction) directly from the TPU Aerodynamic
+Database:
 
 > https://db.wind.arch.t-kougei.ac.jp/aerodynamic/experiment/highrise/
 
@@ -189,7 +180,8 @@ Model T115 (square section, B : D : H = 1 : 1 : 5), suburban exposure
 (power-law α = 1/4). Place them at `raw_data/T115_4_xxx_1.mat` for
 xxx ∈ {000, 005, 010, …, 050}, then run
 `mt-cpso-f/stepa_preprocess.py` to regenerate
-`all_Data_all_place.npy`, `metadata.npz`, etc.
+`all_Data_all_place.npy`, `metadata.npz`, etc. — after which every
+method runs out of the box.
 
 The pre-processed `raw_data/cp_grid.npy` is ≈ 688 MB, laid out as
 `(n_angles, T, 4 faces, 25 height bins, 5 width bins)` with T = 32 768.

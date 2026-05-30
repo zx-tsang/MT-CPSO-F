@@ -23,7 +23,7 @@ needed.
 
 ## How to get the data
 
-### Option A — download from the TPU Aerodynamic Database (canonical)
+Download from the TPU Aerodynamic Database:
 
 1. Visit https://db.wind.arch.t-kougei.ac.jp/aerodynamic/experiment/highrise/
 2. Register / agree to the license
@@ -33,12 +33,8 @@ needed.
      (11 files, one per wind direction 0°, 5°, ..., 50°)
 4. Place the 11 `.mat` files directly in this folder.
 5. Run `mt-cpso-f/stepa_preprocess.py` to generate
-   `all_Data_all_place.npy`, `metadata.npz`, etc.
-
-### Option B — download our pre-processed archive (faster)
-
-A Zenodo release of the pre-processed `.npy` / `.npz` files is provided
-as supplementary material to the paper. See the link in the root README.
+   `all_Data_all_place.npy`, `metadata.npz`, etc. After this, all four
+   methods run out of the box.
 
 ## Required citations when using TPU data
 
