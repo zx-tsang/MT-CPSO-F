@@ -10,9 +10,9 @@ data source only):
 - **MT-CPSO-F** (`mt-cpso-f/`) **— primary contribution.**
   Masked-reconstruction Transformer pre-training + Cooperative PSO
   sensor search + targeted fine-tuning.
-- **SVD-QR baseline** (`baselines/svd_qr/`) — Brunton/Manohar-style
-  pivoted QR on the SVD basis, with L2 (least-squares) and L1 (Lasso)
-  reconstruction.
+- **SVD-QR baseline** (`baselines/svd_qr/`) — pivoted QR on the SVD
+  basis, with L2 (least-squares) and L1 (Lasso) reconstruction
+  (Manohar et al. 2018).
 - **mrDMD-QR baseline** (`baselines/mrdmd_qr/`) — Multi-resolution DMD
   basis + pivoted QR, L2 reconstruction (Al-Chalabi et al. 2025).
 - **POD-Transformer baseline** (`baselines/podtfm/`) — POD + neural-
@@ -180,9 +180,10 @@ Model T115 (square section, B : D : H = 1 : 1 : 5), suburban exposure
 
 The pre-processed `raw_data/cp_grid.npy` is ≈ 688 MB, laid out as
 `(n_angles, T, 4 faces, 25 height bins, 5 width bins)` with T = 32 768.
-The companion `metadata.npz` stores wind angles, B/D/H, sampling rate,
-and period. The pre-processed tensor can be regenerated locally from
-the raw `.mat` files via `mt-cpso-f/stepa_preprocess.py`.
+The companion `metadata.npz` stores `locations`, `angles`,
+`tap_to_grid`, `n_t_per_angle`, `B`, `D`, `H`, `fs`, `period`, `Uh`.
+The pre-processed tensor can be regenerated locally from the raw
+`.mat` files via `mt-cpso-f/stepa_preprocess.py`.
 
 See [`raw_data/README.md`](raw_data/README.md) for full details on
 data placement and formats.
@@ -248,7 +249,7 @@ If you use this code, please cite the accompanying paper:
 │   └── scripts/               driver_pretrain.sh, chain_cpso_finetune.sh, params_main.json
 │
 └── baselines/                 three modal-basis baselines + sensor-index cache
-    ├── svd_qr/                SVD-QR baseline (Brunton/Manohar line)
+    ├── svd_qr/                SVD-QR baseline (Manohar et al. 2018)
     │   ├── svdqr_tpu.py       main script: SVD + QR + L2 / L1 variants
     │   ├── run_alpha_sweep_for_l1.py   Lasso α hyper-parameter sweep
     │   └── README.md

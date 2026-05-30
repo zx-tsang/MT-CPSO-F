@@ -6,7 +6,7 @@ Steps:
   2. Load + assemble:
        - all_Data_all_place.npy   (500, T*11)              flat tap-major layout
        - cp_grid.npy              (11, T, 4, 25, 5)        face-aware grid
-       - metadata.npz             locations, angles, B/D/H/fs/Uh, tap_to_grid
+       - metadata.npz             locations, angles, tap_to_grid, n_t_per_angle, B, D, H, fs, period, Uh
   3. Per-angle 80/10/10 chronological split (mirrors Guangzhou pipeline)
   4. Global StandardScaler fit on (T*11, 500); save (500, 2) [mean, std]
   5. Per-angle sliding windows -> stack across angles

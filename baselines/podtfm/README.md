@@ -56,7 +56,7 @@ following files exist at `<repo-root>/raw_data/`:
 ```
 <repo-root>/raw_data/
     all_Data_all_place.npy    # (500, n_angles * n_t_per_angle) full Cp time series
-    metadata.npz              # keys: angles, n_t_per_angle, fs
+    metadata.npz              # keys: locations, angles, tap_to_grid, n_t_per_angle, B, D, H, fs, period, Uh
 ```
 
 `stepa_preprocess.py` writes per-K artifacts back into the same shared

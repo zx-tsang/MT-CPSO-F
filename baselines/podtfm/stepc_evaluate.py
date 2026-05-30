@@ -17,7 +17,7 @@ Inputs
     raw_data/podtfm_p{K}_k{K}/sensors.npy       (K,)      sensor tap indices
     raw_data/podtfm_p{K}_k{K}/config.npz        n_train / n_valid / n_test / angles ...
     raw_data/all_Data_all_place.npy             (500, 11*T)  raw Cp ground truth
-    raw_data/metadata.npz                       angles, n_t_per_angle, fs ...
+    raw_data/metadata.npz                       locations, angles, tap_to_grid, n_t_per_angle, B, D, H, fs, period, Uh
     output_sensor/model/<tag>/checkpoint.pt
 
 Outputs (output_sensor/<tag>/eval/)

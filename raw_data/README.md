@@ -12,7 +12,7 @@ After you regenerate / download the data, this folder should contain:
 raw_data/
 ├── cp_grid.npy            (11, 32768, 4, 25, 5)  ≈ 688 MB
 ├── all_Data_all_place.npy (500, 32768*11)        flat tap-major view
-├── metadata.npz           angles, n_t_per_angle, B/D/H, fs, period, Uh
+├── metadata.npz           locations, angles, tap_to_grid, n_t_per_angle, B, D, H, fs, period, Uh
 ├── data_Norm_global.npy   per-tap global mean/std
 └── T115_4_xxx_1.mat       11 raw files, xxx ∈ {000,005,...,050}
 ```
