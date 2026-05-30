@@ -159,3 +159,28 @@ matter of underfitting on the baseline side.
 `MAE_vs_raw >= POD_floor` always. The gap is what the Transformer can
 realistically improve. For K ≥ 10 we observe `POD_floor` to be 80-85 %
 of `MAE_vs_raw`, i.e. the baseline is *POD-limited*, not *model-limited*.
+
+### How `POD_floor` is computed
+
+`POD_floor` is the MAE between the raw 500-D Cp field and its
+**rank-*K* best linear approximation** under the training POD basis:
+
+```
+X_trc      = (U_K Uᵀ_K) · X_raw     # orthogonal projection onto span(U_K)
+POD_floor  = mean( | X_raw − X_trc | )
+```
+
+where `U_K ∈ ℝ^{500×K}` is the first *K* columns of the SVD of the
+training Cp field. Concretely in
+[`stepa_preprocess.py:141`](stepa_preprocess.py#L141) the truncated
+coefficients are stored as labels (`c_HF = Uᵀ_K · X_raw`) and
+[`stepc_evaluate.py:224`](stepc_evaluate.py#L224) lifts them back as
+`X_trc = c_HF · Uᵀ_K`.
+
+**Why this is a floor (independent of the model).** Any podtfm-style
+reconstruction ends with the same lift `X_pred = c_pred · Uᵀ_K`, so the
+output is constrained to the *K*-dimensional subspace `span(U_K)` even
+though it has 500 coordinates. The component of `X_raw` orthogonal to
+this subspace is irrecoverable, and its magnitude is exactly
+`POD_floor`. No choice of decoder (LSTM / Transformer / oracle) can go
+below this number — only enlarging *K* can.

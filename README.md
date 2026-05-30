@@ -62,8 +62,8 @@ bash scripts/chain_cpso_finetune.sh
 > shorter** than the paper's per-budget numbers below — the CPSO step
 > alone is roughly an order of magnitude faster per budget.
 
-Per-budget wall-clock breakdown reported in the paper (Guangzhou
-case study, single RTX 4090, 24 GB VRAM):
+Per-budget wall-clock breakdown reported in the paper (**Guangzhou
+case study**, single RTX 4090, 24 GB VRAM):
 
 | Stage | Time per budget (paper) |
 |---|---:|
