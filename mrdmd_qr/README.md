@@ -3,10 +3,10 @@
 Multi-resolution DMD basis + pivoted QR sensor selection on the TPU
 benchmark. Reconstruction is L2 (least-squares).
 
-Based on the AOA-unified placement strategy of Al-Chalabi et al.
+Adapted from the AOA-unified placement strategy of Al-Chalabi et al.
 (2025) MICE 70025. Since no source code was released by the original
-authors, this is a re-implementation following the methodological ideas
-of the paper.
+authors, this implementation builds on their methodological ideas
+rather than reproducing every detail of the paper.
 
 ## Files
 
@@ -20,7 +20,7 @@ of the paper.
 
 | Strategy | Training data | Basis | Sensor set | Status |
 |---|---|---|---|---|
-| `baseline` | 11 angles, raw concatenated, no centering | 1 global mrDMD basis | 1 global set | **Used in this paper.** Based on Al-Chalabi et al. (2025) AOA-unified placement. |
+| `baseline` | 11 angles, raw concatenated, no centering | 1 global mrDMD basis | 1 global set | **Used in this paper.** Adapted from the AOA-unified placement of Al-Chalabi et al. (2025). |
 | `planA` | 11 angles, per-angle centered, concatenated | 1 global mrDMD basis | 1 global set | Not used in this paper. Provided as a code-level variant. |
 | `oracle` | 11 angles, per-angle centered, per-angle basis | per-angle | per-angle (n_ang sets) | Not used in this paper. Upper bound; requires test-time AOA. |
 

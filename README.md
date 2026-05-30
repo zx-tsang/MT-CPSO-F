@@ -134,9 +134,9 @@ done
 | mrDMD-QR | `python mrdmdqr_tpu_l2.py --strategy baseline --L 7 --max_cyc 5 --r_max 5` | L = 7, max_cyc = 5, r_max = 5, no Hankel embedding[^hankel] |
 
 [^hankel]: A Hankel time-delay embedding is sometimes added before
-    DMD to enrich the modal basis. We follow Al-Chalabi et al. (2025)
-    and run plain mrDMD on the original snapshots, as the paper
-    baseline does not use Hankel.
+    DMD to enrich the modal basis. Our mrDMD-QR baseline is adapted
+    from Al-Chalabi et al. (2025) and runs plain mrDMD on the
+    original snapshots without a Hankel embedding.
 
 ## Pre-computed sensor placements
 

@@ -19,8 +19,8 @@ Reference
 Variants
 --------
   baseline     : raw Cp concat -> 1 global mrDMD -> 1 global QR -> L2 recon.
-                 Wind-direction agnostic. Based on the AOA-unified
-                 placement of Al-Chalabi et al. (2025).
+                 Wind-direction agnostic. Adapted from the AOA-unified
+                 placement strategy of Al-Chalabi et al. (2025).
   planA        : per-AOA mean centering -> centered concat -> 1 global mrDMD
                  -> 1 global QR -> per-AOA L2 recon (means added back).
                  Variant that removes each angle's temporal-mean Cp
