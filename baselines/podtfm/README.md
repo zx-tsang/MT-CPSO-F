@@ -7,15 +7,17 @@ This baseline is **adapted from** the POD-LSTM framework of
 > constrained sensor networks.* Computer-Aided Civil and Infrastructure
 > Engineering 40, 2816-2832 (MICE 13488).
 
-The adaptation keeps the high-level POD + neural-decoder idea but
-replaces the LSTM with a Transformer encoder of equivalent capacity
-to keep the comparison fair to MT-CPSO-F. To keep the gappy-POD
-system well-posed, we set the POD rank equal to the sensor count *K*
-so the system stays square and as few modes as possible are
-truncated, giving each *K* the most reconstruction capacity it can
-have under this baseline. A few other implementation details (e.g.
-the gappy-POD reconstruction and the two-SVD split below) also
-differ from the original, so this is not a line-for-line port.
+The adaptation keeps Nav et al.'s four-stage POD + neural-decoder
+pipeline — (1) constrained QR sensor placement with a gappy
+low-fidelity reconstruction, (2) POD dimensionality reduction of both
+the low- and high-fidelity fields, (3) a neural surrogate that maps
+low-fidelity to high-fidelity POD coefficients, and (4) lifting the
+predicted coefficients back to the full field — and replaces the LSTM
+surrogate with a Transformer encoder of equivalent capacity, for
+capacity parity with MT-CPSO-F. As in Nav et al., the mean is removed
+only for QR sensor placement (the POD bases use the raw field, so the
+static mean is carried in the modes and the decoder needs no `+μ`
+offset), and the POD rank equals the sensor count *K* (`r = p = K`).
 
 ## Pipeline
 
@@ -32,10 +34,6 @@ sparse sensors (K)  --QR-->  X_LF (500-D)
                                                               v
                                                         reconstructed Cp (500-D)
 ```
-
-Two SVDs are used: a *centered* SVD for QR pivoting + gappy reconstruction,
-and a *raw* SVD for the encoder/decoder bases (so the static mean is baked
-into mode 1 and there is no `+μ` offset in the decoder).
 
 ## Files
 
