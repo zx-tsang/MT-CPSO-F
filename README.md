@@ -1,5 +1,7 @@
 # Sensor Placement as the Bottleneck: A Masked Transformer and Combinatorial PSO Framework for Full-Field Wind Pressure Reconstruction
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20461049.svg)](https://doi.org/10.5281/zenodo.20461049)
+
 Reference implementation accompanying the paper. The repository ships
 **four** sensor-placement / field-reconstruction methods that all train
 and evaluate on the publicly available **Tokyo Polytechnic University
