@@ -144,6 +144,8 @@ done
 | SVD-QR (L2 99 %) | `cd baselines/svd_qr && python svdqr_tpu.py --energy 0.99 --variants baseline` | energy = 0.99 (rank ≈ 57) |
 | SVD-QR (L1 95 %, valid-tuned) | `cd baselines/svd_qr && python run_alpha_sweep_for_l1.py --energy 0.95` | α* selected on validation; ≈ 0.03 |
 | mrDMD-QR | `cd baselines/mrdmd_qr && python mrdmdqr_tpu_l2.py --strategy baseline --L 7 --max_cyc 5 --r_max 5` | L = 7, max_cyc = 5, r_max = 5, no Hankel embedding[^hankel] |
+| SVD-QR-F | `cd mt-cpso-f && bash scripts/chain_qr_finetune.sh svd-qr` | QR-selected sensors from `baselines/idx/svd-qr/` + MT fine-tuning; requires pretrain ckpt from driver_pretrain.sh |
+| mrDMD-QR-F | `cd mt-cpso-f && bash scripts/chain_qr_finetune.sh mrdmd-qr` | QR-selected sensors from `baselines/idx/mrDMD-qr/` + MT fine-tuning; requires pretrain ckpt from driver_pretrain.sh |
 
 [^hankel]: A Hankel time-delay embedding is sometimes added before
     DMD to enrich the modal basis. Our mrDMD-QR baseline is adapted
@@ -217,7 +219,7 @@ If you use this code, please cite the accompanying paper:
   title   = {Sensor Placement as the Bottleneck: A Masked Transformer
              and Combinatorial PSO Framework for Full-Field Wind
              Pressure Reconstruction},
-  author  = {Tsang, Zhixuan and others},
+  author  = {Zeng, Zi-xuan and others},
   journal = {Automation in Construction},
   year    = {2026},
   note    = {Under review.}
@@ -246,7 +248,7 @@ If you use this code, please cite the accompanying paper:
 │   ├── network/               Transformer modules
 │   ├── dataloader.py          datasets + Params + EarlyStopping
 │   ├── params.yaml            default hyper-parameters
-│   └── scripts/               driver_pretrain.sh, chain_cpso_finetune.sh, params_main.json
+│   └── scripts/               driver_pretrain.sh, chain_cpso_finetune.sh, chain_qr_finetune.sh, params_main.json
 │
 └── baselines/                 three modal-basis baselines + sensor-index cache
     ├── svd_qr/                SVD-QR baseline (Manohar et al. 2018)

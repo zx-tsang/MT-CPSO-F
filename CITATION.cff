@@ -5,8 +5,8 @@ title: >-
   MT-CPSO-F: A Masked Transformer and Combinatorial PSO Framework
   for Full-Field Wind Pressure Reconstruction
 authors:
-  - family-names: Tsang
-    given-names: Zhixuan
+  - family-names: Zeng
+    given-names: Zi-xuan
 repository-code: "https://github.com/zx-tsang/MT-CPSO-F"
 license: MIT
 preferred-citation:
