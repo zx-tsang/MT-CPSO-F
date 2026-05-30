@@ -9,11 +9,13 @@ This baseline is **adapted from** the POD-LSTM framework of
 
 The adaptation keeps the high-level POD + neural-decoder idea but
 replaces the LSTM with a Transformer encoder of equivalent capacity
-to keep the comparison fair to MT-CPSO-F. The POD rank follows the
-original paper's choice of keeping the gappy-POD system well-posed.
-A few implementation details (e.g. the gappy-POD reconstruction and
-the two-SVD split below) also differ from the original, so this is
-not a line-for-line port.
+to keep the comparison fair to MT-CPSO-F. To keep the gappy-POD
+system well-posed, we set the POD rank equal to the sensor count *K*
+so the system stays square and as few modes as possible are
+truncated, giving each *K* the most reconstruction capacity it can
+have under this baseline. A few other implementation details (e.g.
+the gappy-POD reconstruction and the two-SVD split below) also
+differ from the original, so this is not a line-for-line port.
 
 ## Pipeline
 

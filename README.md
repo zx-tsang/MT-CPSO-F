@@ -83,6 +83,12 @@ for the exact hyper-parameters (`early_stopping_patience=120`,
 `anchor_K=10`, endpoint-contact curriculum with cosine LR schedule,
 pure MSE training objective).
 
+---
+
+**Note.** All commands below (SVD-QR, mrDMD-QR, POD-Transformer)
+are configured for the **TPU demo** dataset bundled with this release,
+not the Guangzhou case study above.
+
 ### SVD-QR — L2 baseline at energy = 0.95
 
 ```bash
