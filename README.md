@@ -220,7 +220,7 @@ READMEs under [`baselines/`](baselines/) (one per baseline:
 If you use this code, please cite the accompanying paper:
 
 ```bibtex
-@article{tsang2026sensor,
+@article{zeng2026sensor,
   title   = {Sensor Placement as the Bottleneck: A Masked Transformer
              and Combinatorial PSO Framework for Full-Field Wind
              Pressure Reconstruction},
